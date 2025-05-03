@@ -8,7 +8,7 @@ on:          # 아래 브랜치로 push, pull request 발생 시 자동으로 �
   pull_request:
     branches:
       - 'main'
-      - 'dev'
+      - 'devlop'
 
 permissions:
   contents: read
