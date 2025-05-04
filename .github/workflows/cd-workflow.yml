@@ -87,18 +87,18 @@ jobs:
           envs: GITHUB_SHA
           script: |
             echo "🗂️ Change Directory to EC2 Root"
-            cd /home/ec2-user/kukey/
+            cd /home/ec2-user/kukey
             
             echo "✋🏻Stopping existing container and Cleaning up old images"
-            sudo docker compose down --rmi all
+            docker compose down --rmi all
             
-            sudo docker ps -a
+            docker ps -a
             
             echo "🥳 Pulling new image"
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
             
             echo "🌱 Starting new container"
-            sudo docker compose up -d
+            docker compose up -d
 
       - name: ❌ Remove GitHub Actions IP #배포 완료 후 보안 그룹에서 임시로 추가한 IP를 제거
         run: |
