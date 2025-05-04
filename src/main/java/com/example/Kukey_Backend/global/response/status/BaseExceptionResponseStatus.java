@@ -9,7 +9,6 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public enum BaseExceptionResponseStatus implements ResponseStatus {
 
-    SUCCESS(200, OK, "요청에 성공하였습니다."),
     INVALID_REQUEST_DTO(400, BAD_REQUEST, "요청 데이터의 형식이 올바르지 않습니다."),
     NOT_FOUND_API(404, NOT_FOUND, "존재하지 않는 API입니다."),
     METHOD_NOT_ALLOWED(405,HttpStatus.METHOD_NOT_ALLOWED, "지원하지 않는 HTTP 메서드입니다."),
