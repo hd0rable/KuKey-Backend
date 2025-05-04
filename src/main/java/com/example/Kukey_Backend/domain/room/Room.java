@@ -4,6 +4,8 @@ import com.example.Kukey_Backend.global.entity.BaseEntity;
 import com.example.Kukey_Backend.global.entity.RequestStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -35,6 +37,8 @@ public class Room extends BaseEntity {
     @Column(name = "reservation_status", nullable = false)
     private RequestStatus reservationStatus;
 
+    @Setter
+    @LastModifiedDate
     @Column(name = "modified_at", nullable = false)
     private LocalDateTime modifiedAt;
 
