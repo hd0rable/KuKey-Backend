@@ -1,6 +1,6 @@
-package com.example.Kukey_Backend.domain.keyLocation;
+package com.example.Kukey_Backend.domain.keyLocation.domain;
 
-import com.example.Kukey_Backend.domain.room.Room;
+import com.example.Kukey_Backend.domain.room.domain.Room;
 import com.example.Kukey_Backend.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
