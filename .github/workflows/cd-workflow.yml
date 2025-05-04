@@ -87,7 +87,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             echo "🗂️ Change Directory to EC2 Root"
-            cd /home/ec2-user/kukey
+            cd /home/ec2-user/kukey/
             
             echo "✋🏻Stopping existing container and Cleaning up old images"
             sudo docker compose down --rmi all
