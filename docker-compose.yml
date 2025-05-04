@@ -1,0 +1,15 @@
+services:
+  kukey:
+    image: hd0rable/kukey:latest
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    environment:
+      - PROD_DB_URL=${PROD_DB_URL}
+      - PROD_DB_USERNAME=${PROD_DB_USERNAME}
+      - PROD_DB_PASSWORD=${PROD_DB_PASSWORD}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SECRET_API_KEY=${SECRET_API_KEY}
+      - TZ=Asia/Seoul
