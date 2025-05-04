@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   kukey:
     image: hd0rable/kukey:latest
