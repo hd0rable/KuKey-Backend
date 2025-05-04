@@ -1,4 +1,4 @@
-package com.example.Kukey_Backend.domain.room;
+package com.example.Kukey_Backend.domain.room.domain;
 
 import com.example.Kukey_Backend.global.entity.BaseEntity;
 import com.example.Kukey_Backend.global.entity.RequestStatus;
