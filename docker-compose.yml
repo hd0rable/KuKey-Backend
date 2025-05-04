@@ -12,4 +12,5 @@ services:
       - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - SECRET_API_KEY=${SECRET_API_KEY}
+      - SPRING_PROFILES_ACTIVE=prod,prod-db,prod-port,common
       - TZ=Asia/Seoul
