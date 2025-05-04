@@ -74,22 +74,22 @@ spring:
       max-file-size: 3MB # 개별 파일의 최대 크기 (10MB로 변경)
       max-request-size: 3MB # 전체 요청 크기 (20MB로 변경)
 
-#univcert:
-#  api:
-#    key: ${SECRET_API_KEY}
+univcert:
+  api:
+    key: ${SECRET_API_KEY}
 
-#cloud:
-#  aws:
-#    s3:
-#      bucket: ${S3_BUCKET_NAME}
-#    credentials:
-#      access-key: ${AWS_ACCESS_KEY}
-#      secret-key: ${AWS_SECRET_ACCESS_KEY}
-#    region:
-#      static: eu-north-1
-#      auto: false
-#    stack:
-#      auto: false
+cloud:
+  aws:
+    s3:
+      bucket: kukeybucket
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 
 #jwt:
 #  secret: ${JWT_SECRET}
