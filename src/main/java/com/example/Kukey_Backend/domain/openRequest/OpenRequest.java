@@ -27,6 +27,7 @@ public class OpenRequest extends BaseEntity {
     @Column(name = "processed_at")
     private LocalDateTime processedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private RequestStatus status;
 }

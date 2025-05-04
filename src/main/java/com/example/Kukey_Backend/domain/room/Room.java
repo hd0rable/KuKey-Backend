@@ -28,12 +28,15 @@ public class Room extends BaseEntity {
     @Column(name = "room_display_name", length = 8, nullable = false)
     private String roomDisplayName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "open_status", nullable = false)
     private OpenStatus openStatus;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "open_request_status", nullable = false)
     private RequestStatus openRequestStatus;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "reservation_status", nullable = false)
     private RequestStatus reservationStatus;
 

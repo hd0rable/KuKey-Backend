@@ -50,6 +50,7 @@ public class Reservation extends BaseEntity {
     @Column(name = "reservation_purpose", nullable = false)
     private String reservationPurpose;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private RequestStatus status;
 }
