@@ -1,6 +1,6 @@
-package com.example.Kukey_Backend.domain.reservation;
+package com.example.Kukey_Backend.domain.reservation.domain;
 
-import com.example.Kukey_Backend.domain.room.Room;
+import com.example.Kukey_Backend.domain.room.domain.Room;
 import com.example.Kukey_Backend.global.entity.BaseEntity;
 import com.example.Kukey_Backend.global.entity.RequestStatus;
 import jakarta.persistence.*;
