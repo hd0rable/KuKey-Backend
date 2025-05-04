@@ -90,16 +90,16 @@ jobs:
             cd /home/ec2-user/kukey
 
             echo "✋🏻 Stopping existing container"
-            sudo /usr/bin/docker compose down || true
+            sudo docker-compose down 
             
             echo "🧹 Cleaning up old images"
-            sudo docker rmi -f ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} || true
+            sudo docker rmi -f ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
 
             echo "🥳 Pulling new image"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
 
             echo "🌱 Starting new container"
-            sudo /usr/bin/docker compose up -d
+            sudo docker-compose up -d
 
       - name: ❌ Remove GitHub Actions IP #배포 완료 후 보안 그룹에서 임시로 추가한 IP를 제거
         run: |
