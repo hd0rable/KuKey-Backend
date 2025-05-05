@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping()
     public BaseResponse<String> healthCheck() {
         return BaseResponse.ok("Server is running!");
     }
