@@ -92,6 +92,7 @@ jobs:
             docker compose up -d
 
       - name: ❌ Remove GitHub Actions IP #배포 완료 후 보안 그룹에서 임시로 추가한 IP를 제거
+        if: always()
         run: |
           aws ec2 revoke-security-group-ingress \
               --group-id ${{ secrets.SECURITY_GROUP_ID }} \
