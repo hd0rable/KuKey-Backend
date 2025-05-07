@@ -17,14 +17,17 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     /**
      * 1000 : space 관련
      */
-    CANNOT_FOUND_ROOM(1000, BAD_REQUEST, "해당하는 실습실을 찾을 수 없습니다."),
+    CANNOT_FOUND_SPACE(1000, BAD_REQUEST, "해당하는 실습실을 찾을 수 없습니다."),
     INVALID_BUILDING_TYPE(1001, BAD_REQUEST, "알맞은 건물 이름을 찾을 수 없습니다."),
 
     /**
      * 2000 : auth 관련
      */
-    API_ERROR(2000, BAD_REQUEST, "대학재학인증 이메일 인증 API 호출에 실패하였습니다.");
-
+    API_ERROR(2000, BAD_REQUEST, "대학재학인증 이메일 인증 API 호출에 실패하였습니다."),
+    INVALID_TOKEN(2001, UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    CANNOT_FOUND_TOKEN(2002, UNAUTHORIZED, "토큰을 찾을 수 없습니다."),
+    ACCESS_DENIED(2003, UNAUTHORIZED, "접근 할 수 있는 권한이 없습니다."),
+    INVALID_AUTH_CODE(2004, BAD_REQUEST, "유효하지 않은 인증코드입니다.");
     private final int code;
     private final HttpStatus status;
     private final String message;
