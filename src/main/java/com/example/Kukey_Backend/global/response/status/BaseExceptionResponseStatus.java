@@ -18,7 +18,12 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
      * 1000 : room 관련
      */
     CANNOT_FOUND_ROOM(1000, BAD_REQUEST, "해당하는 실습실을 찾을 수 없습니다."),
-    INVALID_BUILDING_TYPE(1001, BAD_REQUEST, "알맞은 건물 이름을 찾을 수 없습니다.");
+    INVALID_BUILDING_TYPE(1001, BAD_REQUEST, "알맞은 건물 이름을 찾을 수 없습니다."),
+
+    /**
+     * 2000 : auth 관련
+     */
+    API_ERROR(2000, BAD_REQUEST, "대학재학인증 이메일 인증 API 호출에 실패하였습니다.");
 
     private final int code;
     private final HttpStatus status;
