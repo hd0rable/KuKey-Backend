@@ -1,4 +1,4 @@
-package com.example.Kukey_Backend.domain.room.domain;
+package com.example.Kukey_Backend.domain.space.domain;
 
 import lombok.Getter;
 

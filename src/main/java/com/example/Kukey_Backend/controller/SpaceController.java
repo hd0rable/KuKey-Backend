@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rooms")
-public class RoomController {
+@RequestMapping("/spaces")
+public class SpaceController {
 }

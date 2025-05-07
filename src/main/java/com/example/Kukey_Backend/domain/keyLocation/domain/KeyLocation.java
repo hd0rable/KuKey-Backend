@@ -1,6 +1,6 @@
 package com.example.Kukey_Backend.domain.keyLocation.domain;
 
-import com.example.Kukey_Backend.domain.room.domain.Room;
+import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,8 +19,8 @@ public class KeyLocation extends BaseEntity {
     private Long keyLocationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
+    @JoinColumn(name = "space_id", nullable = false)
+    private Space space;
 
     @Column(name = "admin_name", length = 30, nullable = false)
     private String adminName;
