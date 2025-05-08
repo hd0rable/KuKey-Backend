@@ -93,4 +93,5 @@ cloud:
 
 jwt:
   secret: ${JWT_SECRET}
-  access-token-expiration: 604800000 #7일
+  access-token-expiration: 259200000  #3일
+  memory-access-token-expiration: 604800000 #7일
