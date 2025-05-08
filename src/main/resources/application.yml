@@ -81,7 +81,7 @@ univcert:
 cloud:
   aws:
     s3:
-      bucket: kukeybucket
+      bucket: kukey-bucket
     credentials:
       access-key: ${AWS_ACCESS_KEY}
       secret-key: ${AWS_SECRET_ACCESS_KEY}
