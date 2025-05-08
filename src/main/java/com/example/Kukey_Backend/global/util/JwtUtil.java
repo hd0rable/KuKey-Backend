@@ -25,22 +25,39 @@ public class JwtUtil {
 
     private final Key secretKey;
     private final long accessTokenExpTime;
+    private final long memoryAccessTokenExpTime;
 
     public JwtUtil(
             @Value("${jwt.secret}") String secretKey,
-            @Value("${jwt.access-token-expiration}") long accessTokenExpTime
+            @Value("${jwt.access-token-expiration}") long accessTokenExpTime,
+            @Value("${jwt.memory-access-token-expiration}") long memoryAccessTokenExpTime
     ) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
         this.accessTokenExpTime = accessTokenExpTime;
+        this.memoryAccessTokenExpTime = memoryAccessTokenExpTime;
     }
 
-
-    // JWT 토큰 생성
-    public String generateToken(String userEmail, String role) {
+    // JWT 일반토큰 생성
+    public String generateGeneralToken(String userEmail, String role) {
 
         Date now = new Date();
         Date tokenValidity = new Date(now.getTime() + accessTokenExpTime);
+
+        return Jwts.builder()
+                .setSubject(userEmail)
+                .claim("role", role) // 역할 정보 추가
+                .setIssuedAt(now)
+                .setExpiration(tokenValidity)
+                .signWith(secretKey,SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // JWT 메모리토큰 생성
+    public String generateMemoryToken(String userEmail, String role) {
+
+        Date now = new Date();
+        Date tokenValidity = new Date(now.getTime() + memoryAccessTokenExpTime);
 
         return Jwts.builder()
                 .setSubject(userEmail)
