@@ -1,12 +1,13 @@
 package com.example.Kukey_Backend.domain.auth.service;
 
-import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthSendCodeRequest;
+import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthEmailRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthVerifiedCodeRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthSendCodeResponse;
 import com.example.Kukey_Backend.global.exception.GlobalException;
 import com.example.Kukey_Backend.global.util.JwtUtil;
 import com.univcert.api.UnivCert;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,22 +33,22 @@ public class AuthService {
      * 인증코드 발송
      */
     @SneakyThrows
-    public PostAuthSendCodeResponse sendCode(PostAuthSendCodeRequest postAuthSendCodeRequest, HttpServletResponse response) {
+    public PostAuthSendCodeResponse sendCode(PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
 
-        if (verifyEmail(postAuthSendCodeRequest)) {
-            issueAndSetUserToken(postAuthSendCodeRequest.email(), response);
+        if (verifyEmail(postAuthEmailRequest)) {
+            issueAndSetUserToken(postAuthEmailRequest.email(), response);
             return new PostAuthSendCodeResponse(true);
         }
 
-        Map<String, Object> result = UnivCert.certify(apiKey, postAuthSendCodeRequest.email(), "건국대학교",true);
+        Map<String, Object> result = UnivCert.certify(apiKey, postAuthEmailRequest.email(), "건국대학교",true);
         if (!(boolean) result.get("success")) {
             throw new GlobalException(API_ERROR);
         }
         return new PostAuthSendCodeResponse(false);
     }
 
-    private boolean verifyEmail(PostAuthSendCodeRequest postAuthSendCodeRequest) throws IOException {
-        Map<String, Object> result  = UnivCert.status(apiKey, postAuthSendCodeRequest.email());
+    private boolean verifyEmail(PostAuthEmailRequest postAuthEmailRequest) throws IOException {
+        Map<String, Object> result  = UnivCert.status(apiKey, postAuthEmailRequest.email());
         return (boolean) result.get("success");
     }
 
@@ -73,9 +74,21 @@ public class AuthService {
     //인증된 유저에게 토큰 발급
     private void issueAndSetUserToken(String email, HttpServletResponse response) {
         //유저 토큰 발급
-        String accessToken = jwtUtil.generateToken(email,"USER");
+        String accessToken = jwtUtil.generateGeneralToken(email,"USER");
 
         jwtUtil.setHeaderAccessToken(response,accessToken);
     }
 
+    /**
+     * 인증정보 기억하기
+     */
+    public Void rememberAuthToken(@Valid PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
+
+        //유저 토큰 발급
+        String accessToken = jwtUtil.generateMemoryToken(postAuthEmailRequest.email(),"USER");
+
+        jwtUtil.setHeaderAccessToken(response,accessToken);
+
+        return null;
+    }
 }
