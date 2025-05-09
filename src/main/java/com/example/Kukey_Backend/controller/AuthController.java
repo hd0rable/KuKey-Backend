@@ -39,6 +39,7 @@ public class AuthController {
         return BaseResponse.ok(authService.rememberAuthToken(postAuthEmailRequest,response));
     }
 
+    //관리자 로그인
     @PostMapping("/login")
     public BaseResponse<Void> adminLogin(@Valid @RequestBody final PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
         return BaseResponse.ok(authService.login(postAuthAdminLoginRequest,response));
