@@ -28,14 +28,17 @@ public class Space extends BaseEntity {
     @Column(name = "space_display_name", length = 8, nullable = false)
     private String spaceDisplayName;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "open_status", nullable = false)
     private OpenStatus openStatus;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "open_request_status", nullable = false)
     private RequestStatus openRequestStatus;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "reservation_status", nullable = false)
     private RequestStatus reservationStatus;
