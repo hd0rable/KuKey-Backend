@@ -1,5 +1,6 @@
 package com.example.Kukey_Backend.controller;
 
+import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthAdminLoginRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthEmailRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthVerifiedCodeRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthSendCodeResponse;
@@ -36,6 +37,11 @@ public class AuthController {
     @PostMapping("/memory")
     public BaseResponse<Void> rememberAuthToken(@Valid @RequestBody final  PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
         return BaseResponse.ok(authService.rememberAuthToken(postAuthEmailRequest,response));
+    }
+
+    @PostMapping("/login")
+    public BaseResponse<Void> adminLogin(@Valid @RequestBody final PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
+        return BaseResponse.ok(authService.login(postAuthAdminLoginRequest,response));
     }
 
 }
