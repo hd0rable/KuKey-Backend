@@ -1,5 +1,6 @@
 package com.example.Kukey_Backend.domain.auth.service;
 
+import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthAdminLoginRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthEmailRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthVerifiedCodeRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthSendCodeResponse;
@@ -17,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.example.Kukey_Backend.global.response.status.BaseExceptionResponseStatus.API_ERROR;
-import static com.example.Kukey_Backend.global.response.status.BaseExceptionResponseStatus.INVALID_AUTH_CODE;
+import static com.example.Kukey_Backend.global.response.status.BaseExceptionResponseStatus.*;
 
 @Service
 @Transactional
@@ -28,6 +28,11 @@ public class AuthService {
     @Value("${univcert.api.key}")
     private String apiKey;
     private final JwtUtil jwtUtil;
+
+    @Value("${kukey.admin.id}")
+    private String adminId;
+    @Value("${kukey.admin.password}")
+    private String adminPassword;
 
     /**
      * 인증코드 발송
@@ -90,5 +95,19 @@ public class AuthService {
         jwtUtil.setHeaderAccessToken(response,accessToken);
 
         return null;
+    }
+
+    /**
+     * 관리자 로그인
+     */
+    public Void login(@Valid PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
+
+        if(postAuthAdminLoginRequest.id().matches(adminId) && postAuthAdminLoginRequest.password().matches(adminPassword)){
+            //유저 토큰 발급
+            String accessToken = jwtUtil.generateGeneralToken(postAuthAdminLoginRequest.id(),"ADMIN");
+            jwtUtil.setHeaderAccessToken(response,accessToken);
+            return null;
+        }
+        throw new GlobalException(LOGIN_FAILED);
     }
 }
