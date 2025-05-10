@@ -39,7 +39,15 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     /**
      * 4000 : notification 관련
      */
-    INVALID_DISCORD_MESSAGE(3001, BAD_REQUEST, "디스코드로 알림 요청을 전송할 수 없습니다.");
+    INVALID_DISCORD_MESSAGE(3001, BAD_REQUEST, "디스코드로 알림 요청을 전송할 수 없습니다."),
+
+    /**
+     * 5000 : image 관련
+     */
+    EMPTY_FILE_EXCEPTION(5000, BAD_REQUEST, "업로드하려는 이미지가 비어있습니다."),
+    EXCEPTION_ON_IMAGE_UPLOAD(5001, BAD_REQUEST, "이미지 업로드에 실패하였습니다."),
+    INVALID_FILE_EXTENSION(5002, BAD_REQUEST, "올바르지 않은 파일 형식입니다."),
+    IO_EXCEPTION_ON_IMAGE_DELETE(5003, BAD_REQUEST, "파일 삭제에 실패하였습니다");
 
 
     private final int code;
