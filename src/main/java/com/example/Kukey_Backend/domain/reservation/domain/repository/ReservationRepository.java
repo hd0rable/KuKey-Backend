@@ -12,4 +12,7 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     List<Reservation> findAllBySpaceAndReservationDate(Space space, LocalDate localDate);
+
+    List<Reservation> findByStudentNumberAndStudentNameOrderByReservationDateAsc(String studentNumber, String studentName);
+
 }
