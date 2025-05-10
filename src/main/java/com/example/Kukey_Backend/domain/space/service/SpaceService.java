@@ -22,6 +22,7 @@ public class SpaceService {
     /**
      * 실습실 개방 정보 조회
      */
+    @Transactional(readOnly = true)
     public GetSpacesOpenInfoResponse getSpacesOpenInfo() {
         List<spaceOpenInfo> spaceList = spaceRepository.findAll().stream()
                 .map(space -> {
