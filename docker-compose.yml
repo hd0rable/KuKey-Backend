@@ -16,4 +16,5 @@ services:
       - ADMIN_ID=${ADMIN_ID}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - DISCORD_URL=${DISCORD_URL}
+      - BUKET_NAME=${BUKET_NAME}
       - TZ=Asia/Seoul
