@@ -47,12 +47,19 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     EMPTY_FILE_EXCEPTION(5000, BAD_REQUEST, "업로드하려는 이미지가 비어있습니다."),
     EXCEPTION_ON_IMAGE_UPLOAD(5001, BAD_REQUEST, "이미지 업로드에 실패하였습니다."),
     INVALID_FILE_EXTENSION(5002, BAD_REQUEST, "올바르지 않은 파일 형식입니다."),
-    IO_EXCEPTION_ON_IMAGE_DELETE(5003, BAD_REQUEST, "파일 삭제에 실패하였습니다"),
+    IO_EXCEPTION_ON_IMAGE_DELETE(5003, BAD_REQUEST, "파일 삭제에 실패하였습니다."),
 
     /**
      * 6000 : keyLocation 관련
      */
-    CANNOT_FOUND_KEY_LOCATION(6000, BAD_REQUEST, "카드키 기록을 찾을 수 없습니다");
+    CANNOT_FOUND_KEY_LOCATION(6000, BAD_REQUEST, "카드키 기록을 찾을 수 없습니다."),
+
+    /**
+     * 7000 : reservation 관련
+     */
+    RESERVATION_TIME_TOO_LONG(7000,BAD_REQUEST, "예약 시간은 3시간을 초과할 수 없습니다."),
+    DUPLICATE_RESERVATION_TIME(7001,BAD_REQUEST, "해당 시간에 이미 예약내역이 존재합니다."),
+    RESERVATION_TIME_INVALID(7002,BAD_REQUEST, "예약은 오전 9시부터 오후 10시까지 가능합니다");
 
 
     private final int code;
