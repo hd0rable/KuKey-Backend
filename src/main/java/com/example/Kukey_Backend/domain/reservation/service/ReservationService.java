@@ -98,6 +98,7 @@ public class ReservationService {
                         .spaceId(reservation.getSpace().getSpaceId())
                         .buildingName(reservation.getSpace().getBuildingName().getBuildingName())
                         .spaceDisplayName(reservation.getSpace().getSpaceDisplayName())
+                        .reservationId(reservation.getReservationId())
                         .reservationDate(reservation.getReservationDate())
                         .reservationStartTime(reservation.getReservationStartTime())
                         .reservationEndTime(reservation.getReservationEndTime())
