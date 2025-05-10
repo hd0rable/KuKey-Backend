@@ -10,6 +10,7 @@ public record ReservationInfo(
         Long spaceId,
         String buildingName,
         String spaceDisplayName,
+        Long reservationId,
         LocalDate reservationDate,
         LocalTime reservationStartTime,
         LocalTime reservationEndTime,
