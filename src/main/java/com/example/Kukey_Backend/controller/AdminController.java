@@ -12,7 +12,9 @@ import com.example.Kukey_Backend.domain.space.service.SpaceService;
 import com.example.Kukey_Backend.global.annotation.RoleRequired;
 import com.example.Kukey_Backend.global.response.BaseResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,8 +54,9 @@ public class AdminController {
     }
 
     //카드키 위치 기록 조회
+    @Validated
     @GetMapping("/key")
-    public BaseResponse<GetKeyLocationInfoResponse> getKeyLocationInfo(@RequestParam final String buildingName){
+    public BaseResponse<GetKeyLocationInfoResponse> getKeyLocationInfo(@RequestParam @NotBlank(message = "건물명은 필수입니다.") final String buildingName){
         return BaseResponse.ok(keyLocationService.getKeyLocationInfo(buildingName));
     }
 
