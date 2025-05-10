@@ -2,6 +2,8 @@ package com.example.Kukey_Backend.domain.reservation.service;
 
 import com.example.Kukey_Backend.domain.reservation.domain.Reservation;
 import com.example.Kukey_Backend.domain.reservation.domain.dto.request.PostReservationToSpaceRequest;
+import com.example.Kukey_Backend.domain.reservation.domain.dto.response.GetReservationInfoResponse;
+import com.example.Kukey_Backend.domain.reservation.domain.dto.response.ReservationInfo;
 import com.example.Kukey_Backend.domain.reservation.domain.repository.ReservationRepository;
 import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.domain.space.domain.repository.SpaceRepository;
@@ -81,6 +83,34 @@ public class ReservationService {
 
         reservationRepository.save(reservation);
         return null;
+    }
+
+    /**
+     * 실습실 학번으로 예약 조회
+     */
+    public GetReservationInfoResponse getReservationInfo(String studentNumber, String studentName) {
+
+        // 학번과 이름으로 예약 목록 조회
+        List<Reservation> reservations = reservationRepository.findByStudentNumberAndStudentNameOrderByReservationDateAsc(studentNumber, studentName);
+
+        List<ReservationInfo> reservationInfoList = reservations.stream()
+                .map(reservation -> ReservationInfo.builder()
+                        .spaceId(reservation.getSpace().getSpaceId())
+                        .buildingName(reservation.getSpace().getBuildingName().getBuildingName())
+                        .spaceDisplayName(reservation.getSpace().getSpaceDisplayName())
+                        .reservationDate(reservation.getReservationDate())
+                        .reservationStartTime(reservation.getReservationStartTime())
+                        .reservationEndTime(reservation.getReservationEndTime())
+                        .studentGroup(reservation.getStudentGroup())
+                        .reservationPurpose(reservation.getReservationPurpose())
+                        .build())
+                .toList();
+
+        return GetReservationInfoResponse.builder()
+                .studentNumber(studentNumber)
+                .studentName(studentName)
+                .reservationList(reservationInfoList)
+                .build();
     }
 
 }
