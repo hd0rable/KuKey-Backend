@@ -3,6 +3,7 @@ package com.example.Kukey_Backend.controller;
 import com.example.Kukey_Backend.domain.admin.domain.dto.response.PatchOpenChangeResponse;
 import com.example.Kukey_Backend.domain.admin.service.AdminService;
 import com.example.Kukey_Backend.domain.keyLocation.domain.dto.request.PostKeyLocationUploadRequest;
+import com.example.Kukey_Backend.domain.keyLocation.domain.dto.response.GetKeyLocationInfoResponse;
 import com.example.Kukey_Backend.domain.keyLocation.domain.dto.response.PostKeyLocationUploadResponse;
 import com.example.Kukey_Backend.domain.keyLocation.service.KeyLocationService;
 import com.example.Kukey_Backend.domain.notification.service.S3Service;
@@ -34,7 +35,7 @@ public class AdminController {
 
     //관리자 실습실 관리 (잠금 개방 상태 변경)
     @PatchMapping("/open-change/{spaceId}")
-    public BaseResponse<PatchOpenChangeResponse> changeSpaceOpenStatus(@PathVariable("spaceId") Long spaceId){
+    public BaseResponse<PatchOpenChangeResponse> changeSpaceOpenStatus(@PathVariable("spaceId") final Long spaceId){
         return  BaseResponse.ok(adminService.changeSpaceOpenStatus(spaceId));
     }
 
@@ -50,5 +51,10 @@ public class AdminController {
         return BaseResponse.ok(keyLocationService.keyLocationUpload(postKeyLocationUploadRequest));
     }
 
+    //카드키 위치 기록 조회
+    @GetMapping("/key")
+    public BaseResponse<GetKeyLocationInfoResponse> getKeyLocationInfo(@RequestParam final String buildingName){
+        return BaseResponse.ok(keyLocationService.getKeyLocationInfo(buildingName));
+    }
 
 }
