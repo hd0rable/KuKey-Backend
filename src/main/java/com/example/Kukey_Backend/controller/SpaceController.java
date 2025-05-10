@@ -15,6 +15,7 @@ public class SpaceController {
 
     private final SpaceService spaceService;
 
+    //실습실 개방 조회
     @GetMapping("/open")
     public BaseResponse<GetSpacesOpenInfoResponse> getSpacesOpenInfo(){
         return BaseResponse.ok(spaceService.getSpacesOpenInfo());
