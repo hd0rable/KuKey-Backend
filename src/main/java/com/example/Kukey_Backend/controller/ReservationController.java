@@ -39,4 +39,10 @@ public class ReservationController {
         return BaseResponse.ok(reservationService.getReservationInfo(studentNumber,studentName));
     }
 
+    //예약 취소하기
+    @DeleteMapping("/{reservationId}")
+    public BaseResponse<Void> deleteReservation(@PathVariable final Long reservationId) {
+        return BaseResponse.ok(reservationService.deleteReservation(reservationId));
+    }
+
 }

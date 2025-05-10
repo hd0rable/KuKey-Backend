@@ -114,4 +114,16 @@ public class ReservationService {
                 .build();
     }
 
+    /**
+     * 예약 취소하기
+     */
+    public Void deleteReservation(Long reservationId) {
+
+        reservationRepository.findById(reservationId).orElseThrow
+                (() -> new GlobalException(CANNOT_FOUND_RESERVATION));
+
+        reservationRepository.deleteById(reservationId);
+
+        return null;
+    }
 }
