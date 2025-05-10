@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/open-requests")
+@RoleRequired("USER")
 public class OpenRequestController {
 
     private final OpenRequestService openRequestService;
 
     //개방요청하기
-    @RoleRequired("USER")
     @PatchMapping("/{spaceId}")
     public BaseResponse<PatchOpenRequestResponse> openRequest(@PathVariable("spaceId") final Long spaceId) {
         return BaseResponse.ok(openRequestService.openRequest(spaceId));
