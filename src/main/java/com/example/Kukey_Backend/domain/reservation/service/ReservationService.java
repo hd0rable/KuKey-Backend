@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -32,6 +33,10 @@ public class ReservationService {
 
         LocalTime allowedStart = LocalTime.of(9, 0); // 오전 9시
         LocalTime allowedEnd = LocalTime.of(22, 0); // 오후 10시
+
+        if (postReservationToSpaceRequest.reservationDate().isBefore(LocalDate.now())) {
+            throw new GlobalException(RESERVATION_DATE_INVALID);
+        }
 
         // 예약 시간이 허용 범위(09:00~22:00)를 벗어나는 경우 예외
         if (postReservationToSpaceRequest.reservationStartTime().isBefore(allowedStart)) {
