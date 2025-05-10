@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface SpaceRepository extends JpaRepository<Space, Long> {
 
     Optional<List<Space>> findAllByBuildingName(BuildingName buildingName);
+    Optional<Space> findFirstByBuildingNameOrderBySpaceIdAsc(BuildingName buildingName);
+
 }
