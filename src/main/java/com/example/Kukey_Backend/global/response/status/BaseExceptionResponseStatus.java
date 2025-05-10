@@ -31,10 +31,15 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     LOGIN_FAILED(2004, BAD_REQUEST, "아이디와 비밀번호가 일치하지 않습니다."),
 
     /**
-     * 2000 : openRequest 관련
+     * 3000 : openRequest 관련
      */
-    ALREADY_OPEN(3000, BAD_REQUEST, "이미 열려있는 실습실입니다"),
-    ALREADY_OPEN_REQUESTED(3001, BAD_REQUEST, "이미 개방요청이 되어있는 실습실입니다");
+    ALREADY_OPEN(3000, BAD_REQUEST, "이미 열려있는 실습실입니다."),
+    ALREADY_OPEN_REQUESTED(3001, BAD_REQUEST, "이미 개방요청이 되어있는 실습실입니다."),
+
+    /**
+     * 4000 : notification 관련
+     */
+    INVALID_DISCORD_MESSAGE(3001, BAD_REQUEST, "디스코드로 알림 요청을 전송할 수 없습니다.");
 
 
     private final int code;
