@@ -8,8 +8,7 @@ public record spaceOpenInfo(
         String buildingName,
         String spaceDisplayName,
         String openStatus,
-        String openRequestStatus,
-        String ReservationStatus
+        String RequestOrReservationStatus
 )
 {
 }
