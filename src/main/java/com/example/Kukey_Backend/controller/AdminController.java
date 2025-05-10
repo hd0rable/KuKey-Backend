@@ -2,12 +2,15 @@ package com.example.Kukey_Backend.controller;
 
 import com.example.Kukey_Backend.domain.admin.domain.dto.response.PatchOpenChangeResponse;
 import com.example.Kukey_Backend.domain.admin.service.AdminService;
+import com.example.Kukey_Backend.domain.keyLocation.domain.dto.request.PostKeyLocationUploadRequest;
+import com.example.Kukey_Backend.domain.keyLocation.domain.dto.response.PostKeyLocationUploadResponse;
 import com.example.Kukey_Backend.domain.keyLocation.service.KeyLocationService;
 import com.example.Kukey_Backend.domain.notification.service.S3Service;
 import com.example.Kukey_Backend.domain.space.domain.dto.response.GetSpacesOpenInfoResponse;
 import com.example.Kukey_Backend.domain.space.service.SpaceService;
 import com.example.Kukey_Backend.global.annotation.RoleRequired;
 import com.example.Kukey_Backend.global.response.BaseResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +44,11 @@ public class AdminController {
         return BaseResponse.ok(s3Service.getImageFromUser(image));
     }
 
+    //카드키 위치 기록 등록
+    @PostMapping("/key/upload")
+    public BaseResponse<PostKeyLocationUploadResponse> keyLocationUpload(@Valid @RequestBody final PostKeyLocationUploadRequest postKeyLocationUploadRequest){
+        return BaseResponse.ok(keyLocationService.keyLocationUpload(postKeyLocationUploadRequest));
+    }
 
 
 }
