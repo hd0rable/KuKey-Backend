@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.Kukey_Backend.domain.space.domain.OpenStatus.OPEN;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,14 +24,24 @@ public class SpaceService {
      */
     public GetSpacesOpenInfoResponse getSpacesOpenInfo() {
         List<spaceOpenInfo> spaceList = spaceRepository.findAll().stream()
-                .map(space -> spaceOpenInfo.builder()
+                .map(space -> {
+
+                    String requestOrReservationStatus;
+                    if (space.getOpenStatus().equals(OPEN)) {
+                        requestOrReservationStatus = space.getReservationStatus().toString();
+                    }
+                    else {
+                        requestOrReservationStatus =space.getOpenRequestStatus().toString();
+                    }
+
+                    return spaceOpenInfo.builder()
                         .spaceId(space.getSpaceId())
                         .buildingName(space.getBuildingName().getBuildingName())
                         .spaceDisplayName(space.getSpaceDisplayName())
                         .openStatus(space.getOpenStatus().toString())
-                        .openRequestStatus(space.getOpenRequestStatus().toString())
-                        .ReservationStatus(space.getReservationStatus().toString())
-                        .build())
+                        .RequestOrReservationStatus(requestOrReservationStatus)
+                        .build();
+                })
                 .collect(Collectors.toList());
 
         return GetSpacesOpenInfoResponse.of(spaceList);
