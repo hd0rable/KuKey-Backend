@@ -5,10 +5,12 @@ import com.example.Kukey_Backend.domain.openRequest.domain.repository.OpenReques
 import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.domain.space.domain.repository.SpaceRepository;
 import com.example.Kukey_Backend.global.exception.GlobalException;
+import com.example.Kukey_Backend.global.handler.DiscordMessageProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.Kukey_Backend.domain.notification.domain.dto.response.EventMessage.OPEN_REQUEST_EVENT;
 import static com.example.Kukey_Backend.domain.space.domain.OpenStatus.OPEN;
 import static com.example.Kukey_Backend.global.entity.RequestStatus.REQUESTED;
 import static com.example.Kukey_Backend.global.response.status.BaseExceptionResponseStatus.*;
@@ -20,6 +22,7 @@ public class OpenRequestService {
 
     private final OpenRequestRepository openRequestRepository;
     private final SpaceRepository spaceRepository;
+    private final DiscordMessageProvider discordMessageProvider;
 
     /**
      * 개방 요청하기
@@ -40,6 +43,11 @@ public class OpenRequestService {
 
         space.setOpenRequestStatus(REQUESTED);
         spaceRepository.save(space);
+
+        //알림 전송
+        discordMessageProvider.sendMessage
+                (space.getBuildingName().getBuildingName()+" "+space.getSpaceDisplayName()+OPEN_REQUEST_EVENT.getMessage());
+
         return PatchOpenRequestResponse.builder()
                 .spaceId(spaceId)
                 .openRequestStatus("REQUESTED")
