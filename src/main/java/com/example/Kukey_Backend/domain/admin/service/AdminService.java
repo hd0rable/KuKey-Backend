@@ -20,6 +20,10 @@ public class AdminService {
 
     private final SpaceRepository spaceRepository;
 
+    /**
+     * 관리자 실습실 관리
+     * (잠금 개방 상태 변경)
+     */
     public PatchOpenChangeResponse changeSpaceOpenStatus(Long spaceId) {
 
         Space space = spaceRepository.findById(spaceId).orElseThrow(
