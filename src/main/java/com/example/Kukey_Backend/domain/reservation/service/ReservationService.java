@@ -9,6 +9,7 @@ import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.domain.space.domain.repository.SpaceRepository;
 import com.example.Kukey_Backend.global.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +37,17 @@ public class ReservationService {
         LocalTime allowedStart = LocalTime.of(9, 0); // 오전 9시
         LocalTime allowedEnd = LocalTime.of(22, 0); // 오후 10시
 
+        //과거 날짜 예약 차단
         if (postReservationToSpaceRequest.reservationDate().isBefore(LocalDate.now())) {
             throw new GlobalException(RESERVATION_DATE_INVALID);
+        }
+
+
+        //오늘 날짜인 경우, 현재 시간 이후만 예약 가능
+        if (postReservationToSpaceRequest.reservationDate().isEqual(LocalDate.now())) {
+            if (postReservationToSpaceRequest.reservationStartTime().isBefore(LocalTime.now())) {
+                throw new GlobalException(RESERVATION_DATE_TIME_INVALID);
+            }
         }
 
         // 예약 시간이 허용 범위(09:00~22:00)를 벗어나는 경우 예외
@@ -125,5 +135,16 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
 
         return null;
+    }
+
+    /**
+     * 매일 0시 마다 지난 예약 일괄삭제
+     */
+    @Async
+    public void expiredReservationDelete() {
+
+        // 어제까지의 모든 예약 삭제
+        List<Reservation> expiredReservations = reservationRepository.findByReservationDateBefore(LocalDate.now());
+        reservationRepository.deleteAll(expiredReservations);
     }
 }
