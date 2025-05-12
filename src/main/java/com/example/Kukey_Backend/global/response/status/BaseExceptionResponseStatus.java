@@ -61,7 +61,8 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     DUPLICATE_RESERVATION_TIME(7001,BAD_REQUEST, "해당 시간에 이미 예약내역이 존재합니다."),
     RESERVATION_TIME_INVALID(7002,BAD_REQUEST, "예약은 오전 9시부터 오후 10시까지 가능합니다."),
     RESERVATION_DATE_INVALID(7003,BAD_REQUEST, "예약 날짜는 오늘 이후여야 합니다."),
-    CANNOT_FOUND_RESERVATION(7004, BAD_REQUEST, "해당하는 예약 내역을 찾을 수 없습니다");
+    CANNOT_FOUND_RESERVATION(7004, BAD_REQUEST, "해당하는 예약 내역을 찾을 수 없습니다"),
+    RESERVATION_DATE_TIME_INVALID(7005,BAD_REQUEST, "예약 시간은 오늘 이후, 현재 시간보다 이후에 가능합니다.");
 
 
 
