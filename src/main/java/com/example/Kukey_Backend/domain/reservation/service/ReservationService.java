@@ -8,6 +8,7 @@ import com.example.Kukey_Backend.domain.reservation.domain.repository.Reservatio
 import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.domain.space.domain.repository.SpaceRepository;
 import com.example.Kukey_Backend.global.exception.GlobalException;
+import com.example.Kukey_Backend.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,12 @@ public class ReservationService {
 
     private final SpaceRepository spaceRepository;
     private final ReservationRepository reservationRepository;
+    private final JwtUtil jwtUtil;
 
     /**
      * 실습실 예약하기
      */
-    public Void reservationToSpace(Long spaceId, PostReservationToSpaceRequest postReservationToSpaceRequest) {
+    public Void reservationToSpace(Long spaceId, PostReservationToSpaceRequest postReservationToSpaceRequest,String authHeader) {
 
         LocalTime allowedStart = LocalTime.of(9, 0); // 오전 9시
         LocalTime allowedEnd = LocalTime.of(22, 0); // 오후 10시
@@ -79,6 +81,9 @@ public class ReservationService {
             throw new GlobalException(DUPLICATE_RESERVATION_TIME);
         }
 
+
+        String token = jwtUtil.extractToken(authHeader);
+
         Reservation reservation = Reservation.builder()
                 .space(space)
                 .reservationDate(postReservationToSpaceRequest.reservationDate())
@@ -86,6 +91,7 @@ public class ReservationService {
                 .reservationEndTime(postReservationToSpaceRequest.reservationEndTime())
                 .studentNumber(postReservationToSpaceRequest.studentNumber())
                 .studentName(postReservationToSpaceRequest.studentName())
+                .studentEmail(jwtUtil.extractEmail(token))
                 .studentGroup(postReservationToSpaceRequest.studentGroup())
                 .reservationPurpose(postReservationToSpaceRequest.reservationPurpose())
                 .status(APPROVED)
@@ -127,10 +133,17 @@ public class ReservationService {
     /**
      * 예약 취소하기
      */
-    public Void deleteReservation(Long reservationId) {
+    public Void deleteReservation(Long reservationId, String authHeader) {
 
-        reservationRepository.findById(reservationId).orElseThrow
+        Reservation reservation =reservationRepository.findById(reservationId).orElseThrow
                 (() -> new GlobalException(CANNOT_FOUND_RESERVATION));
+
+        String token = jwtUtil.extractToken(authHeader);
+
+        if(! jwtUtil.extractEmail(token).equals(reservation.getStudentEmail())) {
+            throw new GlobalException(CANNOT_DELETE_RESERVATION);
+        }
+
 
         reservationRepository.deleteById(reservationId);
 
