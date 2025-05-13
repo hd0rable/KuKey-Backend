@@ -23,8 +23,10 @@ public class ReservationController {
     //실습실 예약하기
     @PostMapping("/{spaceId}")
     public BaseResponse<Void> reservationToSpace(@PathVariable final Long spaceId,
-                                   @Valid @RequestBody final PostReservationToSpaceRequest postReservationToSpaceRequest) {
-        return BaseResponse.ok(reservationService.reservationToSpace(spaceId,postReservationToSpaceRequest));
+                                   @Valid @RequestBody final PostReservationToSpaceRequest postReservationToSpaceRequest,
+                                                 @RequestHeader("Authorization") String authHeader
+    ) {
+        return BaseResponse.ok(reservationService.reservationToSpace(spaceId,postReservationToSpaceRequest,authHeader));
     }
 
     //학번으로 예약 조회
@@ -41,8 +43,9 @@ public class ReservationController {
 
     //예약 취소하기
     @DeleteMapping("/{reservationId}")
-    public BaseResponse<Void> deleteReservation(@PathVariable final Long reservationId) {
-        return BaseResponse.ok(reservationService.deleteReservation(reservationId));
+    public BaseResponse<Void> deleteReservation(@PathVariable final Long reservationId,
+                                                @RequestHeader("Authorization") String authHeader) {
+        return BaseResponse.ok(reservationService.deleteReservation(reservationId,authHeader));
     }
 
 }
