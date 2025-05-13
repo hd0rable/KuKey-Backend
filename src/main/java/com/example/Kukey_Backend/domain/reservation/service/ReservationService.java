@@ -2,8 +2,7 @@ package com.example.Kukey_Backend.domain.reservation.service;
 
 import com.example.Kukey_Backend.domain.reservation.domain.Reservation;
 import com.example.Kukey_Backend.domain.reservation.domain.dto.request.PostReservationToSpaceRequest;
-import com.example.Kukey_Backend.domain.reservation.domain.dto.response.GetReservationInfoResponse;
-import com.example.Kukey_Backend.domain.reservation.domain.dto.response.ReservationInfo;
+import com.example.Kukey_Backend.domain.reservation.domain.dto.response.*;
 import com.example.Kukey_Backend.domain.reservation.domain.repository.ReservationRepository;
 import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.domain.space.domain.repository.SpaceRepository;
@@ -17,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.example.Kukey_Backend.global.entity.RequestStatus.APPROVED;
 import static com.example.Kukey_Backend.global.response.status.BaseExceptionResponseStatus.*;
@@ -160,4 +161,43 @@ public class ReservationService {
         List<Reservation> expiredReservations = reservationRepository.findByReservationDateBefore(LocalDate.now());
         reservationRepository.deleteAll(expiredReservations);
     }
+
+    /**
+     * 실습실 별 예약 현황 조회
+     */
+    @Transactional(readOnly = true)
+    public GetSpacesReservationInfoResponse getSpacesReservationInfo(LocalDate date) {
+        // 모든 공간 조회
+        List<Space> spaces = spaceRepository.findAll();
+
+        // 각 공간별로 예약 불가 시간대 매핑
+        List<SpaceReservationInfo> reservationInfos = spaces.stream()
+                .map(space -> {
+                    // 날짜 기준으로 예약 조회
+                    List<Reservation> reservations = reservationRepository
+                            .findBySpaceAndReservationDate(space, date);
+
+                    //예약 정보를 TimeSlot 리스트로 변환
+                    List<TimeSlot> timeSlots = reservations.stream()
+                            .map(reservation -> TimeSlot.builder()
+                                    .startTime(reservation.getReservationStartTime().format(DateTimeFormatter.ofPattern("HH:mm")))
+                                    .endTime(reservation.getReservationEndTime().format(DateTimeFormatter.ofPattern("HH:mm")))
+                                    .build())
+                            .collect(Collectors.toList());
+
+                    //SpaceReservationInfo 객체 생성
+                    return SpaceReservationInfo.builder()
+                            .spaceId(space.getSpaceId())
+                            .buildingName(space.getBuildingName().getBuildingName())
+                            .spaceDisplayName(space.getSpaceDisplayName())
+                            .unavailableReservationTimeList(timeSlots)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return GetSpacesReservationInfoResponse.builder()
+                .reservationList(reservationInfos)
+                .build();
+    }
+
 }
