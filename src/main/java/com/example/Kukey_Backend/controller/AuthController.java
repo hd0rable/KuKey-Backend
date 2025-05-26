@@ -3,6 +3,7 @@ package com.example.Kukey_Backend.controller;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthAdminLoginRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthEmailRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthVerifiedCodeRequest;
+import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthGetAccessTokenResponse;
 import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthSendCodeResponse;
 import com.example.Kukey_Backend.domain.auth.service.AuthService;
 import com.example.Kukey_Backend.global.response.BaseResponse;
@@ -29,19 +30,19 @@ public class AuthController {
 
     //이메일 인증코드 검증
     @PostMapping("/verification")
-    public BaseResponse<Void> verifiedCode(@Valid @RequestBody final PostAuthVerifiedCodeRequest postAuthVerifiedCodeRequest, HttpServletResponse response) {
+    public BaseResponse<PostAuthGetAccessTokenResponse> verifiedCode(@Valid @RequestBody final PostAuthVerifiedCodeRequest postAuthVerifiedCodeRequest, HttpServletResponse response) {
         return BaseResponse.ok(authService.verifyCode(postAuthVerifiedCodeRequest,response));
     }
 
     //인증번호 기억하기
     @PostMapping("/memory")
-    public BaseResponse<Void> rememberAuthToken(@Valid @RequestBody final  PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
+    public BaseResponse<PostAuthGetAccessTokenResponse> rememberAuthToken(@Valid @RequestBody final  PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
         return BaseResponse.ok(authService.rememberAuthToken(postAuthEmailRequest,response));
     }
 
     //관리자 로그인
     @PostMapping("/login")
-    public BaseResponse<Void> adminLogin(@Valid @RequestBody final PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
+    public BaseResponse<PostAuthGetAccessTokenResponse> adminLogin(@Valid @RequestBody final PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
         return BaseResponse.ok(authService.login(postAuthAdminLoginRequest,response));
     }
 
