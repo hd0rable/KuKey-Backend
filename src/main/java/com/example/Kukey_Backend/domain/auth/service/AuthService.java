@@ -3,6 +3,7 @@ package com.example.Kukey_Backend.domain.auth.service;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthAdminLoginRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthEmailRequest;
 import com.example.Kukey_Backend.domain.auth.domain.dto.request.PostAuthVerifiedCodeRequest;
+import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthGetAccessTokenResponse;
 import com.example.Kukey_Backend.domain.auth.domain.dto.response.PostAuthSendCodeResponse;
 import com.example.Kukey_Backend.global.exception.GlobalException;
 import com.example.Kukey_Backend.global.util.JwtUtil;
@@ -41,15 +42,15 @@ public class AuthService {
     public PostAuthSendCodeResponse sendCode(PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
 
         if (verifyEmail(postAuthEmailRequest)) {
-            issueAndSetUserToken(postAuthEmailRequest.email(), response);
-            return new PostAuthSendCodeResponse(true);
+            String accessToken=issueAndSetUserToken(postAuthEmailRequest.email(), response);
+            return new PostAuthSendCodeResponse(true,accessToken);
         }
 
         Map<String, Object> result = UnivCert.certify(apiKey, postAuthEmailRequest.email(), "건국대학교",true);
         if (!(boolean) result.get("success")) {
             throw new GlobalException(API_ERROR);
         }
-        return new PostAuthSendCodeResponse(false);
+        return new PostAuthSendCodeResponse(false,null);
     }
 
     private boolean verifyEmail(PostAuthEmailRequest postAuthEmailRequest) throws IOException {
@@ -61,7 +62,7 @@ public class AuthService {
      * 인증코드 검증
      */
     @SneakyThrows
-    public Void verifyCode(PostAuthVerifiedCodeRequest postAuthVerifiedCodeRequest,HttpServletResponse response) {
+    public PostAuthGetAccessTokenResponse verifyCode(PostAuthVerifiedCodeRequest postAuthVerifiedCodeRequest,HttpServletResponse response) {
 
         Map<String, Object> result = UnivCert.certifyCode(apiKey, postAuthVerifiedCodeRequest.email(), "건국대학교",
                 Integer.parseInt(postAuthVerifiedCodeRequest.code()));
@@ -70,43 +71,45 @@ public class AuthService {
             throw new GlobalException(INVALID_AUTH_CODE);
         }
 
-        issueAndSetUserToken(postAuthVerifiedCodeRequest.email(), response);
+        String accessToken = issueAndSetUserToken(postAuthVerifiedCodeRequest.email(), response);
 
-        return null;
+        return new PostAuthGetAccessTokenResponse(accessToken);
 
     }
 
     //인증된 유저에게 토큰 발급
-    private void issueAndSetUserToken(String email, HttpServletResponse response) {
+    private String issueAndSetUserToken(String email, HttpServletResponse response) {
         //유저 토큰 발급
         String accessToken = jwtUtil.generateGeneralToken(email,"USER");
 
         jwtUtil.setHeaderAccessToken(response,accessToken);
+
+        return accessToken;
     }
 
     /**
      * 인증정보 기억하기
      */
-    public Void rememberAuthToken(@Valid PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
+    public PostAuthGetAccessTokenResponse rememberAuthToken(@Valid PostAuthEmailRequest postAuthEmailRequest, HttpServletResponse response) {
 
         //유저 토큰 발급
         String accessToken = jwtUtil.generateMemoryToken(postAuthEmailRequest.email(),"USER");
 
         jwtUtil.setHeaderAccessToken(response,accessToken);
 
-        return null;
+        return new PostAuthGetAccessTokenResponse(accessToken);
     }
 
     /**
      * 관리자 로그인
      */
-    public Void login(@Valid PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
+    public PostAuthGetAccessTokenResponse login(@Valid PostAuthAdminLoginRequest postAuthAdminLoginRequest, HttpServletResponse response) {
 
         if(postAuthAdminLoginRequest.id().matches(adminId) && postAuthAdminLoginRequest.password().matches(adminPassword)){
             //유저 토큰 발급
             String accessToken = jwtUtil.generateGeneralToken(postAuthAdminLoginRequest.id(),"ADMIN");
             jwtUtil.setHeaderAccessToken(response,accessToken);
-            return null;
+            return new PostAuthGetAccessTokenResponse(accessToken);
         }
         throw new GlobalException(LOGIN_FAILED);
     }
