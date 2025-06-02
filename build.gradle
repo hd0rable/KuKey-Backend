@@ -3,6 +3,9 @@ plugins {
 	id 'org.springframework.boot' version '3.4.5'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
+ext {
+	springCloudVersion = "2024.0.1"
+}
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -21,11 +24,14 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven{url 'https://jitpack.io'}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -36,6 +42,23 @@ dependencies {
 
 	//s3 버킷
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	//대학인증 API
+	implementation 'com.github.in-seo:univcert:master-SNAPSHOT'
+
+	//Jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	//Cloud OpenFeign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+}
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+	}
 }
 
 tasks.named('test') {

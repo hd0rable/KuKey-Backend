@@ -1,6 +1,6 @@
 package com.example.Kukey_Backend.domain.reservation.domain;
 
-import com.example.Kukey_Backend.domain.room.domain.Room;
+import com.example.Kukey_Backend.domain.space.domain.Space;
 import com.example.Kukey_Backend.global.entity.BaseEntity;
 import com.example.Kukey_Backend.global.entity.RequestStatus;
 import jakarta.persistence.*;
@@ -26,8 +26,8 @@ public class Reservation extends BaseEntity {
     private Long reservationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
-    private Room room;
+    @JoinColumn(name = "space_id", nullable = false)
+    private Space space;
 
     @Column(name = "reservation_date", nullable = false)
     private LocalDate reservationDate;
@@ -37,6 +37,9 @@ public class Reservation extends BaseEntity {
 
     @Column(name = "reservation_end_time", nullable = false)
     private LocalTime reservationEndTime;
+
+    @Column(name = "student_email", nullable = false)
+    private String studentEmail;
 
     @Column(name = "student_number", length = 10, nullable = false)
     private String studentNumber;

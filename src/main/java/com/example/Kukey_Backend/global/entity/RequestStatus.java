@@ -6,6 +6,5 @@ public enum RequestStatus {
     ING ,
     APPROVED,
     REJECTED,
-    CANCELED,
     DONE
 }

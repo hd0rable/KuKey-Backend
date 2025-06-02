@@ -13,4 +13,8 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - SECRET_API_KEY=${SECRET_API_KEY}
       - SPRING_PROFILES_ACTIVE=prod,prod-db,prod-port,common
+      - ADMIN_ID=${ADMIN_ID}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - DISCORD_URL=${DISCORD_URL}
+      - BUKET_NAME=${BUKET_NAME}
       - TZ=Asia/Seoul

@@ -2,10 +2,12 @@ package com.example.Kukey_Backend.global.handler;
 
 import com.example.Kukey_Backend.global.exception.GlobalException;
 import com.example.Kukey_Backend.global.response.BaseErrorResponse;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import static com.example.Kukey_Backend.global.response.status.BaseExceptionResponseStatus.*;
@@ -25,8 +27,9 @@ public class GlobalControllerAdvice {
     }
 
     //@Validated 으로 binding error 예외처리
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected BaseErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class,
+            HandlerMethodValidationException.class,MethodArgumentTypeMismatchException.class})
+    protected BaseErrorResponse handleMethodArgumentNotValidException(Exception e) {
         return new BaseErrorResponse(INVALID_REQUEST_DTO);
     }
 

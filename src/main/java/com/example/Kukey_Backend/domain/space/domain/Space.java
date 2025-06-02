@@ -1,4 +1,4 @@
-package com.example.Kukey_Backend.domain.room.domain;
+package com.example.Kukey_Backend.domain.space.domain;
 
 import com.example.Kukey_Backend.global.entity.BaseEntity;
 import com.example.Kukey_Backend.global.entity.RequestStatus;
@@ -9,33 +9,36 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rooms")
+@Table(name = "spaces")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Room extends BaseEntity {
+public class Space extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
-    private Long roomId;
+    @Column(name = "space_id")
+    private Long spaceId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "building_name", nullable = false)
     private BuildingName buildingName;
 
-    @Column(name = "room_display_name", length = 8, nullable = false)
-    private String roomDisplayName;
+    @Column(name = "space_display_name", length = 8, nullable = false)
+    private String spaceDisplayName;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "open_status", nullable = false)
     private OpenStatus openStatus;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "open_request_status", nullable = false)
     private RequestStatus openRequestStatus;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "reservation_status", nullable = false)
     private RequestStatus reservationStatus;

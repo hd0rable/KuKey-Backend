@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping()
-    public BaseResponse<Void> home() {
-        return BaseResponse.ok();
+    public BaseResponse<String> healthCheck() {
+        return BaseResponse.ok("Server is running!");
     }
 }
